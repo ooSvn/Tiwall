@@ -547,7 +547,7 @@ DROP TABLE IF EXISTS `user_account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_account` (
-  `Username` varchar(30) NOT NULL AUTO_INCREMENT,
+  `Username` varchar(30) NOT NULL,
   `First_name` varchar(30) NOT NULL,
   `Last_name` varchar(30) NOT NULL,
   `Visible_name` varchar(30) DEFAULT NULL,
