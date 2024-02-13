@@ -79,16 +79,16 @@ DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `Comment_no` int NOT NULL AUTO_INCREMENT,
   `Username` varchar(30) DEFAULT NULL,
-  `Event_id` int DEFAULT NULL,
+  `Event_ID` int DEFAULT NULL,
   `Date` date DEFAULT NULL,
   `Type` varchar(20) DEFAULT NULL,
   `Context` text,
   `Point` int DEFAULT NULL,
   PRIMARY KEY (`Comment_no`),
   KEY `Username` (`Username`),
-  KEY `Event_id` (`Event_id`),
+  KEY `Event_ID` (`Event_ID`),
   CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`Username`) REFERENCES `user_account` (`Username`),
-  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`Event_id`) REFERENCES `event` (`Event_ID`)
+  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -187,18 +187,18 @@ CREATE TABLE `event` (
   `Event_ID` int NOT NULL AUTO_INCREMENT,
   `Event_type` varchar(10) NOT NULL,
   `Name` varchar(30) NOT NULL,
-  `Duration` int NOT NULL,
+  `Duration` FLOAT(4,2) NOT NULL,
   `Price` int NOT NULL,
-  `Discount` int NOT NULL,
-  `Salary` int NOT NULL,
+  `Discount` int DEFAULT NULL,
+  `Salary` int DEFAULT NULL,
   `Instructor` varchar(30) DEFAULT NULL,
   `Presenter` varchar(30) DEFAULT NULL,
-  `Presenter_phone` int DEFAULT NULL,
-  `Catergory` varchar(20) NOT NULL,
-  `Genre` varchar(20) NOT NULL,
-  `Explanation` varchar(100) DEFAULT NULL,
-  `Summary` varchar(50) DEFAULT NULL,
-  `Regulation` varchar(30) DEFAULT NULL,
+  `Presenter_phone` varchar(20) DEFAULT NULL,
+  `Catergory` varchar(30) DEFAULT NULL,
+  `Genre` varchar(30) DEFAULT NULL,
+  `Explanation` varchar(200) DEFAULT NULL,
+  `Summary` varchar(200) DEFAULT NULL,
+  `Regulation` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Event_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -273,7 +273,7 @@ DROP TABLE IF EXISTS `photo`;
 CREATE TABLE `photo` (
   `Photo_ID` int NOT NULL AUTO_INCREMENT,
   `Event_ID` int DEFAULT NULL,
-  `Link` varchar(100) DEFAULT NULL,
+  `Link` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`Photo_ID`),
   KEY `Event_ID` (`Event_ID`),
   CONSTRAINT `photo_ibfk_1` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
@@ -299,15 +299,15 @@ DROP TABLE IF EXISTS `purchase`;
 CREATE TABLE `purchase` (
   `Track_no` int NOT NULL AUTO_INCREMENT,
   `Username` varchar(30) DEFAULT NULL,
-  `Event_id` int DEFAULT NULL,
+  `Event_ID` int DEFAULT NULL,
   `Date` date DEFAULT NULL,
   `Ticket_count` int DEFAULT NULL,
   `Expense` int DEFAULT NULL,
   PRIMARY KEY (`Track_no`),
   KEY `Username` (`Username`),
-  KEY `Event_id` (`Event_id`),
+  KEY `Event_ID` (`Event_ID`),
   CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`Username`) REFERENCES `user_account` (`Username`),
-  CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`Event_id`) REFERENCES `event` (`Event_ID`)
+  CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -331,7 +331,7 @@ CREATE TABLE `seat` (
   `Seat_no` int NOT NULL AUTO_INCREMENT,
   `Hall_no` int DEFAULT NULL,
   `Floor` int DEFAULT NULL,
-  `Rown` int DEFAULT NULL,
+  `Row_no` int DEFAULT NULL,
   `Seat_number` int DEFAULT NULL,
   PRIMARY KEY (`Seat_no`),
   KEY `Hall_no` (`Hall_no`),
@@ -359,7 +359,7 @@ CREATE TABLE `seat_status` (
   `Seat_Status_no` int NOT NULL AUTO_INCREMENT,
   `Seat_no` int DEFAULT NULL,
   `Session_no` int DEFAULT NULL,
-  `Status` varchar(30) DEFAULT NULL,
+  `Status` int DEFAULT NULL,
   `Price` int DEFAULT NULL,
   PRIMARY KEY (`Seat_Status_no`),
   KEY `Seat_no` (`Seat_no`),
@@ -412,13 +412,13 @@ DROP TABLE IF EXISTS `session`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `session` (
   `Session_no` int NOT NULL AUTO_INCREMENT,
-  `Event_id` int DEFAULT NULL,
+  `Event_ID` int DEFAULT NULL,
   `Start_time` time DEFAULT NULL,
   `End_time` time DEFAULT NULL,
   `Date` date DEFAULT NULL,
   PRIMARY KEY (`Session_no`),
-  KEY `Event_id` (`Event_id`),
-  CONSTRAINT `session_ibfk_1` FOREIGN KEY (`Event_id`) REFERENCES `event` (`Event_ID`)
+  KEY `Event_ID` (`Event_ID`),
+  CONSTRAINT `session_ibfk_1` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -444,7 +444,7 @@ CREATE TABLE `site` (
   `City` varchar(30) DEFAULT NULL,
   `Address` varchar(100) DEFAULT NULL,
   `Phone` varchar(20) DEFAULT NULL,
-  `Location` varchar(100) DEFAULT NULL,
+  `Location` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`Site_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -588,7 +588,7 @@ DROP TABLE IF EXISTS `video`;
 CREATE TABLE `video` (
   `Video_ID` int NOT NULL AUTO_INCREMENT,
   `Event_ID` int DEFAULT NULL,
-  `Link` varchar(100) DEFAULT NULL,
+  `Link` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`Video_ID`),
   KEY `Event_ID` (`Event_ID`),
   CONSTRAINT `video_ibfk_1` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
