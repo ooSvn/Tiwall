@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.36, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
--- Host: localhost    Database: Tiwall
+-- Host: localhost    Database: tiwall
 -- ------------------------------------------------------
--- Server version	8.0.36-0ubuntu0.22.04.1
+-- Server version	8.0.36
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -27,7 +27,7 @@ CREATE TABLE `cast` (
   `First_name` varchar(30) DEFAULT NULL,
   `Last_name` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`Cast_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,12 +52,13 @@ CREATE TABLE `cast_occupation` (
   `Cast_ID` int DEFAULT NULL,
   `Event_ID` int DEFAULT NULL,
   `Occupation` varchar(30) DEFAULT NULL,
+  `Date` date DEFAULT NULL,
   PRIMARY KEY (`Cast_Occupation_no`),
   KEY `Event_ID` (`Event_ID`),
   KEY `Cast_ID` (`Cast_ID`),
   CONSTRAINT `cast_occupation_ibfk_1` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`),
   CONSTRAINT `cast_occupation_ibfk_2` FOREIGN KEY (`Cast_ID`) REFERENCES `cast` (`Cast_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,6 +113,7 @@ DROP TABLE IF EXISTS `concert`;
 CREATE TABLE `concert` (
   `Concert_ID` int NOT NULL AUTO_INCREMENT,
   `Event_ID` int DEFAULT NULL,
+  `Category` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`Concert_ID`),
   KEY `fk_Concert` (`Event_ID`),
   CONSTRAINT `fk_Concert` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
@@ -137,6 +139,10 @@ DROP TABLE IF EXISTS `education`;
 CREATE TABLE `education` (
   `Education_ID` int NOT NULL AUTO_INCREMENT,
   `Event_ID` int DEFAULT NULL,
+  `Instructor` varchar(50) DEFAULT NULL,
+  `Presenter` varchar(50) DEFAULT NULL,
+  `Presenter_phone` varchar(20) DEFAULT NULL,
+  `Genre` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`Education_ID`),
   KEY `fk_Education` (`Event_ID`),
   CONSTRAINT `fk_Education` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
@@ -149,7 +155,7 @@ CREATE TABLE `education` (
 
 LOCK TABLES `education` WRITE;
 /*!40000 ALTER TABLE `education` DISABLE KEYS */;
-INSERT INTO `education` VALUES (2,225),(1,226);
+INSERT INTO `education` VALUES (1,226,NULL,'موزه تصاویر معاصر',' 02188107928','اجتماعی'),(2,225,NULL,'مدرسه هنری ویستا',' 02188992023','هنری');
 /*!40000 ALTER TABLE `education` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,6 +169,9 @@ DROP TABLE IF EXISTS `entertainment`;
 CREATE TABLE `entertainment` (
   `Entertainment_ID` int NOT NULL AUTO_INCREMENT,
   `Event_ID` int DEFAULT NULL,
+  `Instructor` varchar(50) DEFAULT NULL,
+  `Presenter` varchar(50) DEFAULT NULL,
+  `Presenter_phone` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`Entertainment_ID`),
   KEY `fk_Entertainment` (`Event_ID`),
   CONSTRAINT `fk_Entertainment` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
@@ -175,7 +184,7 @@ CREATE TABLE `entertainment` (
 
 LOCK TABLES `entertainment` WRITE;
 /*!40000 ALTER TABLE `entertainment` DISABLE KEYS */;
-INSERT INTO `entertainment` VALUES (3,227),(4,228);
+INSERT INTO `entertainment` VALUES (3,227,NULL,'خانه هنری دانش',' 09331080452'),(4,228,NULL,'دان Don','02166723401');
 /*!40000 ALTER TABLE `entertainment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,8 +206,6 @@ CREATE TABLE `event` (
   `Instructor` varchar(100) DEFAULT NULL,
   `Presenter` varchar(100) DEFAULT NULL,
   `Presenter_phone` varchar(200) DEFAULT NULL,
-  `Category` varchar(100) DEFAULT NULL,
-  `Genre` varchar(100) DEFAULT NULL,
   `Explanation` varchar(750) DEFAULT NULL,
   `Summary` varchar(750) DEFAULT NULL,
   `Regulation` varchar(500) DEFAULT NULL,
@@ -212,7 +219,7 @@ CREATE TABLE `event` (
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES (212,'theatre','اوقات سگی',1.00,100000,NULL,9,NULL,'عمارت ‌نوفل‌لوشاتو','66952600','تهران','هیجان انگیز - دلهره‌آور',NULL,'استاد دانشگاهی که به خاطر مسائلی از دانشگاه اخراج و خانه نشین شده است، در روز تولدش زنی ناشناس را در خانه خود میبیند','از همراه داشتن فرزندان زیر ۱۸ سال خودداری نمایید.'),(213,'theatre','کروکودیل',0.80,100000,NULL,9,NULL,'عمارت ‌نوفل‌لوشاتو','66952600','تهران','درام',NULL,'گذشته رو نمی‌شه تغییر داد، ولی هنوز زمان داریم آینده رو اونطوری که می‌خوایم عوضش کنیم.',NULL),(214,'theatre','کشتن گربه بابا فونتن',0.75,100000,20,9,NULL,NULL,'66952600','تلفیقی','تلفیقی',NULL,'کشتن گربه بابا فونتن، برش کوتاهی از زندگی پسر نوجوانی به نام نعیم است که در دوران پس از انقلاب الجزایر در یک آسایشگاه روانی روایت میشود. نعیم در بحبوحه انقلاب، مونیک، دختری فرانسوی که در واقع عاشق او بوده است را تنها به جرم فرانسوی بودنش میکشد و در طول نمایشنامه در مواجهه با پرسشگر دائما در حال کتمان این مسئله است.',' از همراه داشتن فرزندان زیر ۱۵ سال خودداری نمایید.'),(215,'theatre','سینما کارون',1.00,80000,NULL,9,NULL,'عمارت ‌نوفل‌لوشاتو','66952600','بزرگسال','عاشقانه',NULL,'من سینما کارونم.','از همراه داشتن فرزندان زیر 10 سال خودداری نمایید.'),(216,'theatre','خبرنگار بی خبر',0.50,60000,NULL,9,NULL,'کافه ‌سالن ‌چهارسو','66460592-4','بزرگسال','کمدی',NULL,'فرد دست‌فروشی وارد کافه میشود و مسئول کافه برای خارج کردن او با چالشی روبه‌رو میشود.',NULL),(217,'theatre','اسکرین شات',1.20,200000,15,9,NULL,'پردیس ‌تئاتر ‌شهرزاد ‌- ‌سالن ‌1','66760530-66751046','بزرگسال','کمدی',NULL,'از یک دوره همی شبانه تا نابودی چند خانواده','از همراه داشتن فرزندان زیر 12 سال خودداری نمایید.'),(218,'theatre','دامبوبو',0.75,60000,50,9,NULL,'پردیس ‌تئاتر ‌شهرزاد ‌- ‌سالن ‌1','66760530-66751046','کودک و نوجوان','کمدی','توجه: شماره تماس از سوی گروه محترم اجرایی درج شده است و تیوال نقشی در عملکرد و پاسخدهی آن ندارد.','داستان درباره پسری ساده و خوش قلب به نام دامبوبو است که در مسیر بازگشت به خانه با اتفاقات و شخصیت های مختلفی روبرو میشود و...','از همراه داشتن فرزندان زیر 2 سال خودداری نمایید.'),(219,'concert','ساز و سرود',1.50,320000,NULL,9,NULL,'تالار ‌رودکی','66705101',NULL,NULL,NULL,NULL,NULL),(220,'concert','تکنوازی سه‌تار محمد صمدی',1.00,150000,NULL,9,NULL,'مجتمع فرهنگی و هنری ارومیه - تالار فرهنگ','66705101',NULL,NULL,'ترتیب گوشه‌ها و نغمات:\nبخش اول:\nگوشه اول: درآمد\nقطعه: بیات اصفهان استاد لطفی\nگوشه دوم: جامه‌دران\nقطعه: هی داد هی بیداد\nبخش دوم:\nاول: بداهه‌نوازی در بیات اصفهان\nدوم: قطعه‌ی ئامان هی ئامان','تکنوازی سه‌تار در آواز بیات اصفهان',' از همراه داشتن فرزندان زیر ۱۵ سال خودداری نمایید'),(221,'theatre_film','زنان بالکان',0.75,35000,NULL,9,'موسسه ماهان',NULL,'66705101',NULL,NULL,'مناسب برای مخاطبان بالای ۱۰ سال','داستان نمایش در بحبوبه جنگ بین صربستان و بوسنی و در زندانی که صرب ها زنان اسیر شده بوسنیایی را در آنجا نگهداری می کنند اتفاق می افتد.',NULL),(222,'theatre_film','هر کسی یا روز می‌میرد یا شب من شبانه روز',0.50,14000,NULL,9,NULL,NULL,NULL,NULL,NULL,NULL,'هرکسی یا روز می میرد یا شب، من شبانه روز قصه این روزهای تمام ماست، تمام آن ها که در این خانه مانده اند و تمام آن ها که از این خانه رفته اند و تمام آن ها که به این خانه باز می گردند و ما تمام تلاشمان را می کنیم تا آن ها که دوستشان می داریم یک ثانیه هم که شده بیشتر روی پاهایشان بایستند، شبیه آواز غمگینی که از تو دعوت می کند تا پای جان با زندگیت برقصی.',NULL),(223,'series','گیسو',0.45,14000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'رضا در مخمصه‌ای افتاده که برای بیرون آمدن از آن به کمک سهیل و پیمان نیاز دارد. اما نقشه آن‌ها آن‌طور که باید پیش نمی‌رود و اتفاقاتی رخ می‌دهد که کنترل اوضاع را از دست همه خارج می‌کند و ...',NULL),(224,'series','آفتاب پرست',1.00,15000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'جمال و منوچ که عشق لاتی و سطح یک شدن در خفت‌گیری را دارند از بی عرضه‌گی و بدشانسی گیر پلیس می‌افتند و به زندان می‌روند. جمال در زندان به همه می‌گوید که در سطح یک فقط پورشه‌سوار خفت کرده‌اند و به همین خاطر به جمال پورشه معروف می‌شود و...',NULL),(225,'workshop','انیمیشن فیلشاه، مدل‌سازی',NULL,199000,NULL,NULL,'مهدی عبداللهی','مدرسه هنری ویستا','02188107928',NULL,NULL,'شما با خرید این مجموعه می‌توانید علاوه بر استفاده از ۴ دوره ضبط شده کارگردانی، تدوین، نورپردازی و کامپوزیت و مدلسازی و تکسچر در کلاس آنلاینی که با حضور هادی محمدیان، کارگردان انیمیشن «فیلشاه» جهت پرسش و پاسخ و رفع اشکال در تاریخ اوایل خرداد‌ماه برگزار می‌گردد، حضور یابید.','کارگاه انیمیشن سینمایی فیلشاه با تدریس هادی محمدیان، حسن ایوبی، علی دین‌جو و مهدی عبداللهی از گروه هنرپویا در زمینه‌های کارگردانی، تدوین، نورپردازی، کامپوزیت، مدلسازی و تکسچر در انیمیشن سه بعدی برگزار شده است.',NULL),(226,'course','حقوق برای همه',NULL,2400000,NULL,9,'محسن ‌برهانی','موزه ‌تصاویر ‌معاصر ‌- ‌سالن ‌شماره ','02188992023','اجتماعی',NULL,'«حقوق برای همه» عنوان دوره‌ای از درس‌گفتارهای حقوقی است که دانش حقوق را برای استفاده‌ی عموم گویاسازی کرده است.\nایشان در همین ترم، درس‌گفتار \"فلسفه‌ی حقوق\" را در ساعت 19 تا 21 ارائه کرده‌اند که این کلاس نیز از 29 بهمن آغاز می‌شود','۱۰ جلسه درس‌گفتار حضوری با دکتر محسن برهانی.',NULL),(227,'game','مافیا | دن کلاب مشهد (آبکوه)',1.50,40000,NULL,9,'محسن ‌برهانی','دن ‌| ‌Don','09331080452  ',NULL,NULL,NULL,NULL,NULL),(228,'Entertainment','ضیافت قابیل',NULL,100000,NULL,9,NULL,'خانه ‌نمایش ‌دا ‌- ‌سالن ‌شماره ','2166723401',NULL,NULL,NULL,'در یک عمارت بزرگ چهار مرد و دو زن به ضیافت شامی دعوت شده اند، با شنیدن صدای ناقوس متوجه میشوند برای نجات جان خود باید...','از همراه داشتن فرزندان زیر ۱۲ سال خودداری نمایید'),(229,'Exhibit','دومین دوره آرت فیر تهران',NULL,70000,10,NULL,'گروه هنری نگارا','مرکز همایشهای رایزن',NULL,NULL,NULL,'ین نمایشگاه از ساعت ۱۵:۰۰ تا ۲۱:۰۰ در مرکز همایشهای رایزن برگزار می‌شود.\nبزرگترین نمایشگاه هنر درایران در دوره ی قبلی میزبان بیش از ۵ هزار هنرمند و هنردوست بود.\nاین رویداد هرساله با برگزاری گروه هنری نگارا به سرانجام میرسد.',NULL,NULL),(230,'radio_theatre',NULL,NULL,100000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `event` VALUES (212,'theatre','اوقات سگی',1.00,100000,NULL,9,NULL,'عمارت ‌نوفل‌لوشاتو','66952600',NULL,'استاد دانشگاهی که به خاطر مسائلی از دانشگاه اخراج و خانه نشین شده است، در روز تولدش زنی ناشناس را در خانه خود میبیند','از همراه داشتن فرزندان زیر ۱۸ سال خودداری نمایید.'),(213,'theatre','کروکودیل',0.80,100000,NULL,9,NULL,'عمارت ‌نوفل‌لوشاتو','66952600',NULL,'گذشته رو نمی‌شه تغییر داد، ولی هنوز زمان داریم آینده رو اونطوری که می‌خوایم عوضش کنیم.',NULL),(214,'theatre','کشتن گربه بابا فونتن',0.75,100000,20,9,NULL,NULL,'66952600',NULL,'کشتن گربه بابا فونتن، برش کوتاهی از زندگی پسر نوجوانی به نام نعیم است که در دوران پس از انقلاب الجزایر در یک آسایشگاه روانی روایت میشود. نعیم در بحبوحه انقلاب، مونیک، دختری فرانسوی که در واقع عاشق او بوده است را تنها به جرم فرانسوی بودنش میکشد و در طول نمایشنامه در مواجهه با پرسشگر دائما در حال کتمان این مسئله است.',' از همراه داشتن فرزندان زیر ۱۵ سال خودداری نمایید.'),(215,'theatre','سینما کارون',1.00,80000,NULL,9,NULL,'عمارت ‌نوفل‌لوشاتو','66952600',NULL,'من سینما کارونم.','از همراه داشتن فرزندان زیر 10 سال خودداری نمایید.'),(216,'theatre','خبرنگار بی خبر',0.50,60000,NULL,9,NULL,'کافه ‌سالن ‌چهارسو','66460592-4',NULL,'فرد دست‌فروشی وارد کافه میشود و مسئول کافه برای خارج کردن او با چالشی روبه‌رو میشود.',NULL),(217,'theatre','اسکرین شات',1.20,200000,15,9,NULL,'پردیس ‌تئاتر ‌شهرزاد ‌- ‌سالن ‌1','66760530-66751046',NULL,'از یک دوره همی شبانه تا نابودی چند خانواده','از همراه داشتن فرزندان زیر 12 سال خودداری نمایید.'),(218,'theatre','دامبوبو',0.75,60000,50,9,NULL,'پردیس ‌تئاتر ‌شهرزاد ‌- ‌سالن ‌1','66760530-66751046','توجه: شماره تماس از سوی گروه محترم اجرایی درج شده است و تیوال نقشی در عملکرد و پاسخدهی آن ندارد.','داستان درباره پسری ساده و خوش قلب به نام دامبوبو است که در مسیر بازگشت به خانه با اتفاقات و شخصیت های مختلفی روبرو میشود و...','از همراه داشتن فرزندان زیر 2 سال خودداری نمایید.'),(219,'concert','ساز و سرود',1.50,320000,NULL,9,NULL,'تالار ‌رودکی','66705101',NULL,NULL,NULL),(220,'concert','تکنوازی سه‌تار محمد صمدی',1.00,150000,NULL,9,NULL,'مجتمع فرهنگی و هنری ارومیه - تالار فرهنگ','66705101','ترتیب گوشه‌ها و نغمات:\nبخش اول:\nگوشه اول: درآمد\nقطعه: بیات اصفهان استاد لطفی\nگوشه دوم: جامه‌دران\nقطعه: هی داد هی بیداد\nبخش دوم:\nاول: بداهه‌نوازی در بیات اصفهان\nدوم: قطعه‌ی ئامان هی ئامان','تکنوازی سه‌تار در آواز بیات اصفهان',' از همراه داشتن فرزندان زیر ۱۵ سال خودداری نمایید'),(221,'theatre_film','زنان بالکان',0.75,35000,NULL,9,'موسسه ماهان',NULL,'66705101','مناسب برای مخاطبان بالای ۱۰ سال','داستان نمایش در بحبوبه جنگ بین صربستان و بوسنی و در زندانی که صرب ها زنان اسیر شده بوسنیایی را در آنجا نگهداری می کنند اتفاق می افتد.',NULL),(222,'theatre_film','هر کسی یا روز می‌میرد یا شب من شبانه روز',0.50,14000,NULL,9,NULL,NULL,NULL,NULL,'هرکسی یا روز می میرد یا شب، من شبانه روز قصه این روزهای تمام ماست، تمام آن ها که در این خانه مانده اند و تمام آن ها که از این خانه رفته اند و تمام آن ها که به این خانه باز می گردند و ما تمام تلاشمان را می کنیم تا آن ها که دوستشان می داریم یک ثانیه هم که شده بیشتر روی پاهایشان بایستند، شبیه آواز غمگینی که از تو دعوت می کند تا پای جان با زندگیت برقصی.',NULL),(223,'series','گیسو',0.45,14000,NULL,NULL,NULL,NULL,NULL,NULL,'رضا در مخمصه‌ای افتاده که برای بیرون آمدن از آن به کمک سهیل و پیمان نیاز دارد. اما نقشه آن‌ها آن‌طور که باید پیش نمی‌رود و اتفاقاتی رخ می‌دهد که کنترل اوضاع را از دست همه خارج می‌کند و ...',NULL),(224,'series','آفتاب پرست',1.00,15000,NULL,NULL,NULL,NULL,NULL,NULL,'جمال و منوچ که عشق لاتی و سطح یک شدن در خفت‌گیری را دارند از بی عرضه‌گی و بدشانسی گیر پلیس می‌افتند و به زندان می‌روند. جمال در زندان به همه می‌گوید که در سطح یک فقط پورشه‌سوار خفت کرده‌اند و به همین خاطر به جمال پورشه معروف می‌شود و...',NULL),(225,'workshop','انیمیشن فیلشاه، مدل‌سازی',NULL,199000,NULL,NULL,'مهدی عبداللهی','مدرسه هنری ویستا','02188107928','شما با خرید این مجموعه می‌توانید علاوه بر استفاده از ۴ دوره ضبط شده کارگردانی، تدوین، نورپردازی و کامپوزیت و مدلسازی و تکسچر در کلاس آنلاینی که با حضور هادی محمدیان، کارگردان انیمیشن «فیلشاه» جهت پرسش و پاسخ و رفع اشکال در تاریخ اوایل خرداد‌ماه برگزار می‌گردد، حضور یابید.','کارگاه انیمیشن سینمایی فیلشاه با تدریس هادی محمدیان، حسن ایوبی، علی دین‌جو و مهدی عبداللهی از گروه هنرپویا در زمینه‌های کارگردانی، تدوین، نورپردازی، کامپوزیت، مدلسازی و تکسچر در انیمیشن سه بعدی برگزار شده است.',NULL),(226,'course','حقوق برای همه',NULL,2400000,NULL,9,'محسن ‌برهانی','موزه ‌تصاویر ‌معاصر ‌- ‌سالن ‌شماره ','02188992023','«حقوق برای همه» عنوان دوره‌ای از درس‌گفتارهای حقوقی است که دانش حقوق را برای استفاده‌ی عموم گویاسازی کرده است.\nایشان در همین ترم، درس‌گفتار \"فلسفه‌ی حقوق\" را در ساعت 19 تا 21 ارائه کرده‌اند که این کلاس نیز از 29 بهمن آغاز می‌شود','۱۰ جلسه درس‌گفتار حضوری با دکتر محسن برهانی.',NULL),(227,'game','مافیا | دن کلاب مشهد (آبکوه)',1.50,40000,NULL,9,'محسن ‌برهانی','دن ‌| ‌Don','09331080452  ',NULL,NULL,NULL),(228,'Entertainment','ضیافت قابیل',NULL,100000,NULL,9,NULL,'خانه ‌نمایش ‌دا ‌- ‌سالن ‌شماره ','2166723401',NULL,'در یک عمارت بزرگ چهار مرد و دو زن به ضیافت شامی دعوت شده اند، با شنیدن صدای ناقوس متوجه میشوند برای نجات جان خود باید...','از همراه داشتن فرزندان زیر ۱۲ سال خودداری نمایید'),(229,'Exhibit','دومین دوره آرت فیر تهران',NULL,70000,10,NULL,'گروه هنری نگارا','مرکز همایشهای رایزن',NULL,'ین نمایشگاه از ساعت ۱۵:۰۰ تا ۲۱:۰۰ در مرکز همایشهای رایزن برگزار می‌شود.\nبزرگترین نمایشگاه هنر درایران در دوره ی قبلی میزبان بیش از ۵ هزار هنرمند و هنردوست بود.\nاین رویداد هرساله با برگزاری گروه هنری نگارا به سرانجام میرسد.',NULL,NULL),(230,'radio_theatre',NULL,NULL,100000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,6 +233,9 @@ DROP TABLE IF EXISTS `exhibit`;
 CREATE TABLE `exhibit` (
   `Exhibit_ID` int NOT NULL AUTO_INCREMENT,
   `Event_ID` int DEFAULT NULL,
+  `Instructor` varchar(50) DEFAULT NULL,
+  `Presenter` varchar(50) DEFAULT NULL,
+  `Presenter_phone` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`Exhibit_ID`),
   KEY `fk_Exhibit` (`Event_ID`),
   CONSTRAINT `fk_Exhibit` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
@@ -238,7 +248,7 @@ CREATE TABLE `exhibit` (
 
 LOCK TABLES `exhibit` WRITE;
 /*!40000 ALTER TABLE `exhibit` DISABLE KEYS */;
-INSERT INTO `exhibit` VALUES (1,229);
+INSERT INTO `exhibit` VALUES (1,229,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `exhibit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,6 +405,8 @@ DROP TABLE IF EXISTS `series_movies`;
 CREATE TABLE `series_movies` (
   `Movies_Series_ID` int NOT NULL AUTO_INCREMENT,
   `Event_ID` int DEFAULT NULL,
+  `Genre` varchar(30) DEFAULT NULL,
+  `Category` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`Movies_Series_ID`),
   KEY `fk_Movies_Series` (`Event_ID`),
   CONSTRAINT `fk_Movies_Series` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
@@ -407,7 +419,7 @@ CREATE TABLE `series_movies` (
 
 LOCK TABLES `series_movies` WRITE;
 /*!40000 ALTER TABLE `series_movies` DISABLE KEYS */;
-INSERT INTO `series_movies` VALUES (2,223),(1,224);
+INSERT INTO `series_movies` VALUES (1,224,NULL,NULL),(2,223,NULL,NULL);
 /*!40000 ALTER TABLE `series_movies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -478,6 +490,8 @@ DROP TABLE IF EXISTS `theatre`;
 CREATE TABLE `theatre` (
   `Theatre_ID` int NOT NULL AUTO_INCREMENT,
   `Event_ID` int DEFAULT NULL,
+  `Genre` varchar(30) DEFAULT NULL,
+  `Category` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`Theatre_ID`),
   KEY `fk_Event_ID` (`Event_ID`),
   CONSTRAINT `fk_Event_ID` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
@@ -490,7 +504,7 @@ CREATE TABLE `theatre` (
 
 LOCK TABLES `theatre` WRITE;
 /*!40000 ALTER TABLE `theatre` DISABLE KEYS */;
-INSERT INTO `theatre` VALUES (1,212),(2,213),(3,214),(4,215),(5,216),(6,217),(7,218),(8,230);
+INSERT INTO `theatre` VALUES (1,212,'هیجان انگیز - دلهره‌آور',' بزرگسال'),(2,213,' درام',' بزرگسال'),(3,214,' تلفیقی',' تلفیقی'),(4,215,' عاشقانه',' بزرگسال'),(5,216,' کمدی',' بزرگسال'),(6,217,' کمدی',' بزرگسال'),(7,218,' کمدی',' کودک و نوجوان'),(8,230,NULL,NULL);
 /*!40000 ALTER TABLE `theatre` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -504,6 +518,8 @@ DROP TABLE IF EXISTS `theatre_film`;
 CREATE TABLE `theatre_film` (
   `Theatre_Film_ID` int NOT NULL AUTO_INCREMENT,
   `Event_ID` int DEFAULT NULL,
+  `Category` varchar(30) DEFAULT NULL,
+  `Genre` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`Theatre_Film_ID`),
   KEY `fk_Theatre_Film` (`Event_ID`),
   CONSTRAINT `fk_Theatre_Film` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`)
@@ -516,7 +532,7 @@ CREATE TABLE `theatre_film` (
 
 LOCK TABLES `theatre_film` WRITE;
 /*!40000 ALTER TABLE `theatre_film` DISABLE KEYS */;
-INSERT INTO `theatre_film` VALUES (1,221),(2,222);
+INSERT INTO `theatre_film` VALUES (1,221,NULL,NULL),(2,222,NULL,NULL);
 /*!40000 ALTER TABLE `theatre_film` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -626,4 +642,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-15 21:48:24
+-- Dump completed on 2024-02-15 22:08:19
