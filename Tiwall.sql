@@ -27,7 +27,7 @@ CREATE TABLE `cast` (
   `First_name` varchar(30) DEFAULT NULL,
   `Last_name` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`Cast_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,6 +36,7 @@ CREATE TABLE `cast` (
 
 LOCK TABLES `cast` WRITE;
 /*!40000 ALTER TABLE `cast` DISABLE KEYS */;
+INSERT INTO `cast` VALUES (1,'Asghar','Farhadi'),(2,'Majid','Majidi'),(3,'Abbas','Kiarostami'),(4,'Bahram','Beyzaie'),(5,'Rakhshan','Bani-Etemad'),(6,'Samira','Makhmalbaf'),(7,'Jafar','Panahi'),(8,'Marzieh','Boroumand'),(9,'Narges','Abyar'),(10,'Mani','Haghighi'),(11,'Googoosh',NULL),(12,'Ebi',NULL),(13,'Dariush','Eghbali'),(14,'Mahasti',NULL),(15,'Moein',NULL),(16,'Hayedeh',NULL),(17,'Shadmehr','Aghili'),(18,'Leila','Forouhar'),(19,'Mansour',NULL),(20,'Andy',NULL),(21,'Shahab','Hosseini'),(22,'Golshifteh','Farahani'),(23,'Taraneh','Alidoosti'),(24,'Leila','Hatami'),(25,'Homayoun','Ershadi'),(26,'Hanieh','Tavassoli'),(27,'Peyman','Maadi'),(28,'Nazanin','Boniadi'),(29,'Behrouz','Vossoughi'),(30,'Sarah','Bayat');
 /*!40000 ALTER TABLE `cast` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,13 +52,12 @@ CREATE TABLE `cast_occupation` (
   `Cast_ID` int DEFAULT NULL,
   `Event_ID` int DEFAULT NULL,
   `Occupation` varchar(30) DEFAULT NULL,
-  `Date` date DEFAULT NULL,
   PRIMARY KEY (`Cast_Occupation_no`),
   KEY `Event_ID` (`Event_ID`),
   KEY `Cast_ID` (`Cast_ID`),
   CONSTRAINT `cast_occupation_ibfk_1` FOREIGN KEY (`Event_ID`) REFERENCES `event` (`Event_ID`),
   CONSTRAINT `cast_occupation_ibfk_2` FOREIGN KEY (`Cast_ID`) REFERENCES `cast` (`Cast_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,6 +66,7 @@ CREATE TABLE `cast_occupation` (
 
 LOCK TABLES `cast_occupation` WRITE;
 /*!40000 ALTER TABLE `cast_occupation` DISABLE KEYS */;
+INSERT INTO `cast_occupation` VALUES (1,22,212,'Director'),(2,27,212,'actor'),(3,17,213,'actor'),(4,3,213,'Singer'),(5,22,213,'writer'),(6,13,214,'manager'),(7,13,214,'manager'),(8,30,215,'Director'),(9,30,215,'manager'),(10,24,215,'actor'),(11,18,216,'Director'),(12,7,216,'Director'),(13,8,216,'Director'),(14,9,217,'Singer'),(15,30,217,'Singer'),(16,11,218,'actor'),(17,28,218,'writer'),(18,3,219,'Director'),(19,1,219,'Singer'),(20,9,219,'actor'),(21,2,220,'Director'),(22,23,220,'Director'),(23,9,220,'writer'),(24,7,220,'Singer'),(25,14,220,'manager'),(26,11,221,'Director'),(27,18,221,'writer'),(28,17,221,'Singer'),(29,15,221,'manager'),(30,27,221,'Director'),(31,19,222,'Director'),(32,26,222,'manager'),(33,1,222,'actor'),(34,19,223,'Singer'),(35,16,223,'actor'),(36,6,223,'Singer'),(37,17,224,'actor'),(38,13,224,'manager'),(39,12,224,'manager'),(40,30,225,'manager'),(41,24,225,'manager'),(42,11,226,'Director'),(43,8,226,'Director'),(44,28,226,'Director'),(45,6,226,'actor'),(46,26,226,'Singer'),(47,10,227,'manager'),(48,19,227,'Director'),(49,4,227,'Singer'),(50,26,227,'writer'),(51,25,228,'Director'),(52,14,228,'writer'),(53,13,229,'actor'),(54,7,229,'Director'),(55,1,229,'Singer'),(56,17,229,'manager'),(57,7,230,'Director'),(58,19,230,'manager'),(59,21,230,'Singer'),(60,17,230,'actor');
 /*!40000 ALTER TABLE `cast_occupation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -625,4 +626,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-15 16:41:47
+-- Dump completed on 2024-02-15 21:48:24
